@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lyrik · Deutsch 8. Klasse</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:       #1a2744;
+  --navy-l:     #243460;
+  --navy-ll:    #2d3f72;
+  --gold:       #e8c547;
+  --gold-dim:   #c4a73a;
+  --cream:      #f0ead8;
+  --cream-dim:  #d6cfba;
+  --white:      #ffffff;
+  --green:      #4caf82;
+  --red:        #e05c5c;
+  --purple:     #9b7fe8;
+  --blue:       #5b9de8;
+  --shadow:     rgba(0,0,0,0.35);
+  --r:          12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--navy);
+  color:var(--cream);
+  min-height:100vh;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(255,255,255,0.035) 31px,rgba(255,255,255,0.035) 32px);
+  pointer-events:none;z-index:0;
+}
+.app{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:0 20px 80px}
+
+/* ── HEADER ── */
+header{text-align:center;padding:28px 0 20px;border-bottom:1px solid rgba(232,197,71,0.25);margin-bottom:0}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;opacity:.85}
+h1{font-family:'Playfair Display',serif;font-size:clamp(26px,5.5vw,42px);font-weight:700;color:var(--white);line-height:1.1}
+h1 em{font-style:italic;color:var(--gold)}
+.subtitle{margin-top:8px;font-size:13px;color:var(--cream-dim);font-weight:300}
+
+/* ── TAB NAV ── */
+.tab-nav{
+  display:flex;gap:0;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:var(--r);
+  padding:4px;
+  margin:20px 0 28px;
+}
+.tab-btn{
+  flex:1;padding:11px 10px;
+  border:none;border-radius:9px;
+  background:transparent;
+  color:var(--cream-dim);
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:500;
+  cursor:pointer;
+  transition:background .2s,color .2s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.tab-btn.active{background:var(--navy-l);color:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.tab-btn .tab-icon{font-size:16px}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ── HOME CARDS ── */
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.mode-card{
+  background:var(--navy-l);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--r);
+  padding:22px 18px;
+  cursor:pointer;
+  transition:transform .15s,border-color .15s,box-shadow .15s;
+  text-align:center;
+}
+.mode-card:hover{transform:translateY(-3px);border-color:rgba(232,197,71,.35);box-shadow:0 8px 28px rgba(0,0,0,.35)}
+.mode-card .mc-icon{font-size:36px;display:block;margin-bottom:12px}
+.mode-card .mc-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:5px}
+.mode-card .mc-desc{font-size:12px;color:var(--cream-dim);line-height:1.4}
+.mode-card.gold-border{border-color:rgba(232,197,71,.3)}
+.mode-card.purple-border{border-color:rgba(155,127,232,.3)}
+
+.topic-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.topic-chip{
+  background:rgba(232,197,71,0.1);
+  border:1px solid rgba(232,197,71,0.2);
+  color:var(--gold);font-size:12px;font-weight:500;
+  padding:5px 12px;border-radius:100px;
+}
+
+/* ── LERN-BEREICH ── */
+.learn-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.learn-tab{
+  padding:7px 14px;border-radius:100px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  color:var(--cream-dim);font-size:13px;font-weight:500;
+  cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+}
+.learn-tab.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+.learn-panel{display:none}
+.learn-panel.active{display:block}
+
+/* Begriffe-Karten */
+.begriffe-grid{display:grid;gap:12px}
+.begriffs-card{
+  background:var(--navy-l);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.begriffs-card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;cursor:pointer;
+  transition:background .15s;
+}
+.begriffs-card-head:hover{background:rgba(255,255,255,0.04)}
+.begriffs-card-head .bc-left{display:flex;align-items:center;gap:12px}
+.bc-icon{font-size:20px}
+.bc-term{font-size:15px;font-weight:600;color:var(--white)}
+.bc-short{font-size:12px;color:var(--cream-dim);margin-top:2px}
+.bc-arrow{font-size:12px;color:var(--gold);transition:transform .2s}
+.begriffs-card.open .bc-arrow{transform:rotate(90deg)}
+.begriffs-body{
+  display:none;padding:0 20px 20px;
+  border-top:1px solid rgba(255,255,255,0.07);
+}
+.begriffs-card.open .begriffs-body{display:block}
+.begriffs-body .def{font-size:14px;line-height:1.65;color:var(--cream);padding-top:14px}
+.begriffs-body .def strong{color:var(--gold)}
+.begriffs-body .example{
+  margin-top:12px;
+  background:rgba(232,197,71,0.07);
+  border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0;
+  padding:10px 14px;
+  font-size:13px;color:var(--cream-dim);line-height:1.5;
+}
+.begriffs-body .example strong{color:var(--gold)}
+.begriffs-body .schema-row{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:12px
+}
+.schema-pill{
+  background:var(--navy-ll);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;padding:8px 14px;
+  font-size:13px;text-align:center;
+}
+.schema-pill .sp-label{color:var(--cream-dim);font-size:11px;margin-bottom:3px}
+.schema-pill .sp-val{color:var(--gold);font-weight:600;font-size:15px;font-family:'Playfair Display',serif}
+
+/* Metrum-Visualizer */
+.metrum-visual{
+  background:var(--navy-ll);border-radius:10px;padding:16px 20px;margin-top:12px;
+}
+.metrum-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.metrum-row:last-child{margin-bottom:0}
+.metrum-name{font-size:13px;font-weight:600;color:var(--white);min-width:72px}
+.metrum-beats{display:flex;gap:5px;align-items:center}
+.beat{
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+}
+.beat.stressed{background:var(--gold);color:var(--navy)}
+.beat.unstressed{background:rgba(255,255,255,0.1);color:var(--cream-dim)}
+.beat-sep{color:rgba(255,255,255,0.2);font-size:10px}
+.metrum-ex{font-size:12px;color:var(--cream-dim);margin-left:4px;font-style:italic}
+
+/* Karteikarten */
+.flashcard-wrap{perspective:1000px;margin-bottom:20px;cursor:pointer}
+.flashcard{
+  width:100%;min-height:220px;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(0.4,0,0.2,1);
+  border-radius:var(--r);
+}
+.flashcard.flipped{transform:rotateY(180deg)}
+.fc-front,.fc-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  border-radius:var(--r);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:30px 24px;text-align:center;
+  border:1px solid rgba(255,255,255,0.08);
+}
+.fc-front{background:var(--navy-l)}
+.fc-back{background:var(--navy-ll);transform:rotateY(180deg)}
+.fc-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.fc-question{font-family:'Playfair Display',serif;font-size:clamp(18px,3.5vw,24px);color:var(--white);line-height:1.4;font-style:italic}
+.fc-answer{font-size:15px;color:var(--cream);line-height:1.6}
+.fc-answer strong{color:var(--gold)}
+.fc-hint{font-size:12px;color:var(--cream-dim);margin-top:16px}
+.fc-controls{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:16px}
+.fc-counter{font-size:13px;color:var(--cream-dim)}
+.fc-nav{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  color:var(--cream);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.fc-nav:hover{background:rgba(255,255,255,0.14)}
+.fc-progress-row{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.fc-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.12);transition:background .3s;cursor:pointer}
+.fc-dot.seen{background:var(--gold)}
+
+/* Reim-Animator */
+.reim-container{display:grid;gap:14px}
+.reim-card{
+  background:var(--navy-l);border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--r);padding:18px 20px;
+}
+.reim-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.reim-schema{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold)}
+.reim-desc{font-size:13px;color:var(--cream-dim);margin-bottom:14px;line-height:1.5}
+.reim-lines{display:flex;flex-direction:column;gap:4px}
+.reim-line{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 12px;border-radius:7px;
+  font-size:14px;
+  transition:background .2s;
+}
+.reim-line .rl-letter{
+  min-width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+  flex-shrink:0;
+}
+.reim-line .rl-text{color:var(--cream);flex:1}
+.reim-line .rl-end{font-weight:600}
+
+/* Sprecher-Karte */
+.sprecher-diagram{
+  background:var(--navy-l);border-radius:var(--r);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:24px;margin-bottom:16px;
+}
+.sd-center{text-align:center;margin-bottom:20px}
+.sd-main{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);font-style:italic;margin-bottom:4px}
+.sd-sub{font-size:12px;color:var(--cream-dim)}
+.sd-items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sd-item{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:9px;padding:12px 14px;
+}
+.sd-item .si-icon{font-size:18px;margin-bottom:5px}
+.sd-item .si-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
+.sd-item .si-text{font-size:12px;color:var(--cream-dim);line-height:1.4}
+
+/* Enjambement Demo */
+.enj-demo{
+  background:var(--navy-l);border-radius:var(--r);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:22px;margin-bottom:16px;
+}
+.enj-poem{font-family:'Playfair Display',serif;font-size:17px;color:var(--white);line-height:2;margin-bottom:16px;font-style:italic}
+.enj-poem .enj-mark{
+  background:rgba(232,197,71,0.2);border-bottom:2px solid var(--gold);
+  padding:0 2px;border-radius:2px;color:var(--gold);
+}
+.enj-arrow{text-align:center;color:var(--gold);font-size:22px;margin:4px 0}
+.enj-label{font-size:13px;color:var(--cream-dim);text-align:center;font-style:italic}
+.info-box{
+  background:rgba(232,197,71,0.08);border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0;padding:12px 16px;
+  font-size:13px;line-height:1.6;color:var(--cream);
+}
+.info-box strong{color:var(--gold)}
+
+/* ── QUIZ ── */
+.score-panel{display:flex;gap:10px;margin-bottom:22px}
+.score-chip{flex:1;background:var(--navy-l);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 8px;text-align:center}
+.score-chip .val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--gold);display:block;line-height:1}
+.score-chip .lbl{font-size:10px;color:var(--cream-dim);margin-top:3px;display:block;font-weight:500}
+.progress-wrap{margin-bottom:26px}
+.progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--cream-dim);margin-bottom:7px;font-weight:500}
+.progress-track{height:5px;background:rgba(255,255,255,0.1);border-radius:100px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.category-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(232,197,71,0.12);border:1px solid rgba(232,197,71,.25);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:12px}
+.question-card{background:var(--navy-l);border:1px solid rgba(255,255,255,0.08);border-radius:var(--r);padding:26px;margin-bottom:18px;box-shadow:0 4px 24px var(--shadow)}
+.question-number{font-size:11px;color:var(--cream-dim);font-weight:500;margin-bottom:10px;letter-spacing:.05em}
+.question-text{font-family:'Playfair Display',serif;font-size:clamp(16px,3vw,20px);line-height:1.45;color:var(--white);font-style:italic}
+.answers-grid{display:grid;gap:9px;margin-bottom:22px}
+.answer-btn{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);color:var(--cream);font-family:'Inter',sans-serif;font-size:14px;font-weight:400;padding:14px 18px;border-radius:10px;cursor:pointer;text-align:left;transition:background .18s,border-color .18s,transform .12s;line-height:1.4;display:flex;align-items:center;gap:11px}
+.answer-btn:hover:not(:disabled){background:rgba(255,255,255,0.09);border-color:rgba(232,197,71,.4);transform:translateX(3px)}
+.answer-btn .letter{display:flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.08);font-size:11px;font-weight:600;color:var(--cream-dim);transition:background .18s,color .18s;flex-shrink:0}
+.answer-btn.correct{background:rgba(76,175,130,0.18);border-color:var(--green);color:var(--white)}
+.answer-btn.correct .letter{background:var(--green);color:var(--white)}
+.answer-btn.wrong{background:rgba(224,92,92,0.15);border-color:var(--red);color:rgba(255,255,255,0.6)}
+.answer-btn.wrong .letter{background:var(--red);color:var(--white)}
+.answer-btn:disabled{cursor:default}
+.explanation{background:rgba(232,197,71,0.08);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:13px 17px;font-size:13px;line-height:1.6;color:var(--cream);margin-bottom:18px;display:none}
+.explanation.show{display:block}
+.explanation strong{color:var(--gold)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:12px 20px;border-radius:8px;border:none;cursor:pointer;transition:transform .1s,opacity .15s}
+.btn:active{transform:scale(0.97)}
+.btn-primary{background:var(--gold);color:var(--navy);flex:1;min-width:130px}
+.btn-primary:hover{background:var(--gold-dim)}
+.btn-secondary{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:var(--cream)}
+.btn-secondary:hover{background:rgba(255,255,255,0.13)}
+.btn:disabled{opacity:.4;cursor:default}
+.streak-bar{display:flex;gap:4px;margin-bottom:10px;justify-content:center;flex-wrap:wrap}
+.streak-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.1);transition:background .3s}
+.streak-dot.hit{background:var(--gold)}
+.streak-dot.miss{background:var(--red)}
+
+/* ── RESULTS ── */
+#results{display:none;text-align:center}
+.result-emoji{font-size:60px;display:block;margin-bottom:18px;animation:pop .5s cubic-bezier(.3,-.3,.5,1.4)}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.result-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4.5vw,32px);color:var(--white);margin-bottom:8px}
+.result-score-big{font-family:'Playfair Display',serif;font-size:clamp(44px,9vw,66px);font-weight:700;color:var(--gold);display:block;line-height:1;margin:18px 0 6px}
+.result-label{font-size:14px;color:var(--cream-dim);margin-bottom:28px}
+.result-breakdown{background:var(--navy-l);border-radius:var(--r);padding:18px;margin-bottom:24px;text-align:left}
+.breakdown-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:12px}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-row .cat{color:var(--cream)}
+.breakdown-row .stat{color:var(--gold);font-weight:600}
+.result-actions{display:flex;gap:10px;flex-direction:column}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy-l);border:1px solid rgba(232,197,71,.3);color:var(--cream);font-size:13px;padding:9px 18px;border-radius:100px;white-space:nowrap;pointer-events:none;transition:transform .3s cubic-bezier(.3,-.1,.5,1.2),opacity .3s;opacity:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ── MISC ── */
+.section-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--white);margin-bottom:16px;font-style:italic}
+.divider{height:1px;background:rgba(255,255,255,0.07);margin:24px 0}
+
+@media(max-width:480px){
+  .mode-cards{grid-template-columns:1fr}
+  .score-panel{flex-wrap:wrap}
+  .score-panel .score-chip{min-width:calc(50% - 5px)}
+  .btn-row{flex-direction:column}
+  .sd-items{grid-template-columns:1fr}
+  .metrum-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div class="eyebrow">Deutsch · 8. Klasse</div>
+  <h1>Grundbegriffe<br>der <em>Lyrik</em></h1>
+  <p class="subtitle">Lernbereich & Quiz · Alles aus deinen Notizen</p>
+</header>
+
+<!-- TAB NAV -->
+<nav class="tab-nav" style="margin-top:20px">
+  <button class="tab-btn active" onclick="switchTab('home')" id="tab-home">
+    <span class="tab-icon">🏠</span> Start
+  </button>
+  <button class="tab-btn" onclick="switchTab('learn')" id="tab-learn">
+    <span class="tab-icon">📖</span> Lernen
+  </button>
+  <button class="tab-btn" onclick="switchTab('quiz')" id="tab-quiz">
+    <span class="tab-icon">✏️</span> Quiz
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     HOME
+══════════════════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+
+  <div class="mode-cards">
+    <div class="mode-card gold-border" onclick="switchTab('learn')">
+      <span class="mc-icon">📖</span>
+      <div class="mc-title">Lernen</div>
+      <div class="mc-desc">Begriffe, Karteikarten, Reimschemata, Metrum-Trainer & mehr</div>
+    </div>
+    <div class="mode-card purple-border" onclick="goQuiz()">
+      <span class="mc-icon">✏️</span>
+      <div class="mc-title">Quiz</div>
+      <div class="mc-desc">29 zufällig gemischte Fragen mit Erklärungen & Streak-System</div>
+    </div>
+  </div>
+
+  <p class="section-title">Themen im Überblick</p>
+  <div class="topic-chips">
+    <span class="topic-chip">📝 Grundbegriffe</span>
+    <span class="topic-chip">🔗 Reimschemata</span>
+    <span class="topic-chip">🎵 Metrum & Versmaße</span>
+    <span class="topic-chip">🗣️ Lyrischer Sprecher</span>
+    <span class="topic-chip">➡️ Enjambement</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="section-title">Schnell-Referenz</p>
+  <div style="background:var(--navy-l);border-radius:var(--r);border:1px solid rgba(255,255,255,0.08);overflow:hidden">
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Paarreim</span><span style="color:var(--cream-dim)">aabb</span>
+    </div>
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Kreuzreim</span><span style="color:var(--cream-dim)">abab</span>
+    </div>
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Umarmender Reim</span><span style="color:var(--cream-dim)">abba</span>
+    </div>
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Jambus</span><span style="color:var(--cream-dim)">u / · u / · u /</span>
+    </div>
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Trochäus</span><span style="color:var(--cream-dim)">/ u · / u · / u</span>
+    </div>
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Daktylus</span><span style="color:var(--cream-dim)">/ u u · / u u</span>
+    </div>
+    <div style="padding:14px 18px;display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--gold);font-weight:600">Anapäst</span><span style="color:var(--cream-dim)">u u / · u u /</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     LERNEN
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-learn">
+
+  <div class="learn-tabs">
+    <button class="learn-tab active" onclick="switchLearn('begriffe')">📚 Begriffe</button>
+    <button class="learn-tab" onclick="switchLearn('karteikarten')">🃏 Karteikarten</button>
+    <button class="learn-tab" onclick="switchLearn('reimschemata')">🔗 Reimschemata</button>
+    <button class="learn-tab" onclick="switchLearn('metrum')">🎵 Metrum</button>
+    <button class="learn-tab" onclick="switchLearn('sprecher')">🗣️ Sprecher</button>
+    <button class="learn-tab" onclick="switchLearn('enjambement')">➡️ Enjambement</button>
+  </div>
+
+  <!-- BEGRIFFE -->
+  <div class="learn-panel active" id="panel-begriffe">
+    <p class="section-title">Alle Grundbegriffe</p>
+    <div class="begriffe-grid" id="begriffeGrid"></div>
+  </div>
+
+  <!-- KARTEIKARTEN -->
+  <div class="learn-panel" id="panel-karteikarten">
+    <p class="section-title">Karteikarten</p>
+    <p style="font-size:13px;color:var(--cream-dim);margin-bottom:18px">Tippe auf die Karte zum Umdrehen · Navigiere mit den Pfeilen</p>
+
+    <div class="fc-progress-row" id="fcDots"></div>
+    <div class="flashcard-wrap" id="fcWrap" onclick="flipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-front">
+          <div class="fc-label">Begriff</div>
+          <div class="fc-question" id="fcFront">…</div>
+          <div class="fc-hint">Tippen zum Umdrehen</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-label">Definition</div>
+          <div class="fc-answer" id="fcBack">…</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="fc-nav" onclick="fcNav(-1)">←</button>
+      <span class="fc-counter" id="fcCounter">1 / 12</span>
+      <button class="fc-nav" onclick="fcNav(1)">→</button>
+    </div>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn btn-primary" onclick="shuffleCards()">🔀 Mischen</button>
+      <button class="btn btn-secondary" onclick="fcNav(-fcIdx)">↩ Neustart</button>
+    </div>
+  </div>
+
+  <!-- REIMSCHEMATA -->
+  <div class="learn-panel" id="panel-reimschemata">
+    <p class="section-title">Reimschemata</p>
+    <div class="reim-container" id="reimContainer"></div>
+    <div class="divider"></div>
+    <div class="info-box">
+      <strong>Unreiner Reim:</strong> Klingt ähnlich, aber nicht identisch — z.B. <em>Liebe – Rübe</em>.<br>
+      <strong>Waise:</strong> Ein Vers ohne Reimpartner. (frz. <em>jambe</em> = Bein → Waise = steht allein)
+    </div>
+  </div>
+
+  <!-- METRUM -->
+  <div class="learn-panel" id="panel-metrum">
+    <p class="section-title">Metrum & Versmaße</p>
+    <div class="info-box" style="margin-bottom:18px">
+      Das <strong>Metrum</strong> ist das regelmäßige Muster von betonten (<strong>/</strong>) und unbetonten (<strong>u</strong>) Silben. So bestimmt man es: 1) Silben trennen · 2) Skandieren (= leiern)
+    </div>
+
+    <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:12px">Zweisylbige Versfüße</p>
+    <div class="metrum-visual" style="margin-bottom:18px">
+      <div class="metrum-row">
+        <span class="metrum-name">Jambus</span>
+        <div class="metrum-beats">
+          <div class="beat unstressed">u</div><div class="beat stressed">/</div>
+          <span class="beat-sep">·</span>
+          <div class="beat unstressed">u</div><div class="beat stressed">/</div>
+          <span class="beat-sep">·</span>
+          <div class="beat unstressed">u</div><div class="beat stressed">/</div>
+        </div>
+        <span class="metrum-ex">ver-NUNFT</span>
+      </div>
+      <div class="metrum-row">
+        <span class="metrum-name">Trochäus</span>
+        <div class="metrum-beats">
+          <div class="beat stressed">/</div><div class="beat unstressed">u</div>
+          <span class="beat-sep">·</span>
+          <div class="beat stressed">/</div><div class="beat unstressed">u</div>
+          <span class="beat-sep">·</span>
+          <div class="beat stressed">/</div><div class="beat unstressed">u</div>
+        </div>
+        <span class="metrum-ex">FLA-sche</span>
+      </div>
+    </div>
+
+    <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:12px">Dreisilbige Versfüße</p>
+    <div class="metrum-visual" style="margin-bottom:18px">
+      <div class="metrum-row">
+        <span class="metrum-name">Daktylus</span>
+        <div class="metrum-beats">
+          <div class="beat stressed">/</div><div class="beat unstressed">u</div><div class="beat unstressed">u</div>
+          <span class="beat-sep">·</span>
+          <div class="beat stressed">/</div><div class="beat unstressed">u</div><div class="beat unstressed">u</div>
+        </div>
+        <span class="metrum-ex">SON-nen-uhr</span>
+      </div>
+      <div class="metrum-row">
+        <span class="metrum-name">Anapäst</span>
+        <div class="metrum-beats">
+          <div class="beat unstressed">u</div><div class="beat unstressed">u</div><div class="beat stressed">/</div>
+          <span class="beat-sep">·</span>
+          <div class="beat unstressed">u</div><div class="beat unstressed">u</div><div class="beat stressed">/</div>
+        </div>
+        <span class="metrum-ex">Har-mo-NIE</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-title">🎯 Übung: Welches Versmaß steckt dahinter?</p>
+
+    <!-- HOW IT WORKS BOX -->
+    <div style="background:rgba(232,197,71,0.08);border:1px solid rgba(232,197,71,0.2);border-radius:var(--r);padding:18px;margin-bottom:16px">
+      <p style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:10px">📖 So funktioniert das Skandieren:</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px">
+          <span style="background:var(--gold);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:12px">1</span>
+          <span style="color:var(--cream)"><strong style="color:var(--white)">Lies den Vers laut vor</strong> — übertrieben rhythmisch, wie ein Roboter oder beim Leiern. Welche Silben klingen <em>schwerer/lauter</em>?</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px">
+          <span style="background:var(--gold);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:12px">2</span>
+          <span style="color:var(--cream)"><strong style="color:var(--white)">Tippe auf jede Silbe</strong> — einmal tippen = <span style="color:var(--gold);font-weight:600">BETONT</span> (gelb), nochmal tippen = <span style="color:var(--cream-dim)">unbetont</span> (grau)</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px">
+          <span style="background:var(--gold);color:var(--navy);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:12px">3</span>
+          <span style="color:var(--cream)"><strong style="color:var(--white)">Das Muster verrät das Versmaß</strong> — u / u / = Jambus, / u / u = Trochäus usw.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAINER CARD -->
+    <div style="background:var(--navy-l);border-radius:var(--r);border:1px solid rgba(255,255,255,0.08);padding:22px">
+
+      <!-- Verse display -->
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--white);text-align:center;margin-bottom:6px;line-height:1.5" id="verseDisplay">»…«</div>
+      <p style="font-size:11px;color:var(--cream-dim);text-align:center;margin-bottom:20px">Lies diesen Vers laut vor, dann markiere die Silben</p>
+
+      <!-- Syllable buttons -->
+      <div id="syllableTrainer" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px"></div>
+
+      <!-- Legend -->
+      <div style="display:flex;gap:12px;justify-content:center;margin-bottom:20px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cream-dim)">
+          <div style="width:28px;height:28px;border-radius:6px;background:rgba(232,197,71,0.2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gold);font-size:14px">/</div>
+          <span>= betont (schwere Silbe)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cream-dim)">
+          <div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--cream-dim);font-size:14px">u</div>
+          <span>= unbetont (leichte Silbe)</span>
+        </div>
+      </div>
+
+      <!-- Pattern display -->
+      <div id="patternRow" style="display:flex;gap:5px;justify-content:center;min-height:36px;margin-bottom:16px;flex-wrap:wrap"></div>
+
+      <!-- Result banner -->
+      <div id="metrumResult" style="display:none;border-radius:9px;padding:14px 18px;text-align:center;margin-bottom:16px"></div>
+
+      <!-- Buttons -->
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-secondary" onclick="showSolution()" style="font-size:13px;padding:9px 18px">💡 Lösung zeigen</button>
+        <button class="btn btn-primary" onclick="loadNewVerse()" style="font-size:13px;padding:9px 18px">↻ Neuer Vers</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="info-box">
+      <strong>Merkhilfe:</strong> Das Metrum gibt die Anzahl der <strong>Hebungen</strong> und den Takt an — z.B. »vierhebiger Jambus« = 4× u/.
+    </div>
+  </div>
+
+  <!-- LYRISCHER SPRECHER -->
+  <div class="learn-panel" id="panel-sprecher">
+    <p class="section-title">Der Sprecher im Gedicht</p>
+    <div class="sprecher-diagram">
+      <div class="sd-center">
+        <div class="sd-main">Lyrischer Sprecher</div>
+        <div class="sd-sub">≠ der Dichter</div>
+      </div>
+      <div class="sd-items">
+        <div class="sd-item">
+          <div class="si-icon">🎭</div>
+          <div class="si-title">Lyrisches Ich</div>
+          <div class="si-text">Spricht als Einzelstimme — »ich fühle…«</div>
+        </div>
+        <div class="sd-item">
+          <div class="si-icon">👥</div>
+          <div class="si-title">Lyrisches Wir</div>
+          <div class="si-text">Spricht als Gemeinschaft — »wir träumen…«</div>
+        </div>
+        <div class="sd-item">
+          <div class="si-icon">🫥</div>
+          <div class="si-title">Verborgen</div>
+          <div class="si-text">Kein explizites »Ich« — taucht implizit auf</div>
+        </div>
+        <div class="sd-item">
+          <div class="si-icon">📢</div>
+          <div class="si-title">Lyrisches Du</div>
+          <div class="si-text">Eine Person/ein Wesen wird direkt angesprochen</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <strong>Wichtig:</strong> Jedes Gedicht hat einen <strong>lyrischen Sprecher</strong>. Er ist eine erfundene Stimme — kein reales Ich des Autors. Manchmal wird auch ein <strong>lyrisches Du</strong> angesprochen (z.B. »Königin, dein Herz wird schwer«).
+    </div>
+  </div>
+
+  <!-- ENJAMBEMENT -->
+  <div class="learn-panel" id="panel-enjambement">
+    <p class="section-title">Enjambement (Zeilensprung)</p>
+    <div class="enj-demo">
+      <p style="font-size:12px;color:var(--cream-dim);margin-bottom:14px;text-transform:uppercase;letter-spacing:.1em;font-weight:600">Beispiel aus den Notizen</p>
+      <div class="enj-poem">
+        Ich steh ganz oben <span class="enj-mark">am Balkon –</span><br>
+        <span class="enj-mark">und seh</span> nur Licht, Glas und Beton.
+      </div>
+      <div class="enj-arrow">↓</div>
+      <div class="enj-label">Der Satz läuft über das Versende hinaus in Zeile 2 weiter = <strong style="color:var(--gold)">Enjambement</strong></div>
+    </div>
+    <div class="info-box" style="margin-bottom:16px">
+      <strong>Definition:</strong> Ein Satz wird über das Vers-(Zeilen-)Ende hinaus in die nächste Zeile weitergeführt.<br><br>
+      <strong>Herkunft:</strong> Französisch <em>jambe</em> = Bein → enjamber = darüberschreiten.<br><br>
+      <strong>Wirkung:</strong> Erzeugt Spannung, beschleunigt den Leserhythmus, verbindet Verse eng miteinander.
+    </div>
+    <div style="background:var(--navy-l);border-radius:var(--r);border:1px solid rgba(255,255,255,0.08);padding:18px">
+      <p style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:10px">Kein Enjambement vs. Enjambement</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(224,92,92,0.1);border:1px solid rgba(224,92,92,.2);border-radius:9px;padding:12px">
+          <div style="font-size:11px;color:var(--red);font-weight:600;margin-bottom:8px">✗ KEIN Enjambement</div>
+          <div style="font-family:'Playfair Display',serif;font-size:13px;color:var(--cream);font-style:italic;line-height:1.8">
+            Die Sonne scheint.<br>Der Vogel singt.
+          </div>
+          <div style="font-size:11px;color:var(--cream-dim);margin-top:8px">Jeder Vers = abgeschlossener Satz</div>
+        </div>
+        <div style="background:rgba(76,175,130,0.1);border:1px solid rgba(76,175,130,.2);border-radius:9px;padding:12px">
+          <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:8px">✓ Enjambement</div>
+          <div style="font-family:'Playfair Display',serif;font-size:13px;color:var(--cream);font-style:italic;line-height:1.8">
+            Die Sonne scheint durch<br>das hohe Fenster hell.
+          </div>
+          <div style="font-size:11px;color:var(--cream-dim);margin-top:8px">Satz läuft über Zeilenende</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     QUIZ
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-quiz">
+
+  <div id="quiz-start" style="text-align:center;padding:16px 0">
+    <div style="font-size:48px;margin-bottom:16px">✏️</div>
+    <p class="section-title" style="margin-bottom:8px">Quiz starten</p>
+    <p style="font-size:14px;color:var(--cream-dim);margin-bottom:28px">29 Fragen · Zufällig gemischt · Mit Erklärungen</p>
+    <button class="btn btn-primary" style="width:100%;font-size:16px;padding:16px" onclick="startQuiz()">Jetzt starten →</button>
+  </div>
+
+  <div id="quiz-running" style="display:none">
+    <div class="score-panel">
+      <div class="score-chip"><span class="val" id="scoreVal">0</span><span class="lbl">Punkte</span></div>
+      <div class="score-chip"><span class="val" id="correctVal">0</span><span class="lbl">Richtig</span></div>
+      <div class="score-chip"><span class="val" id="wrongVal">0</span><span class="lbl">Falsch</span></div>
+      <div class="score-chip"><span class="val" id="streakVal">0🔥</span><span class="lbl">Streak</span></div>
+    </div>
+    <div class="streak-bar" id="streakBar"></div>
+    <div class="progress-wrap">
+      <div class="progress-meta"><span id="progText">Frage 1 von 29</span><span id="progPct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div class="category-badge" id="catBadge">Kategorie</div>
+      <div class="question-number" id="qNum">Frage 1</div>
+      <div class="question-text" id="qText">…</div>
+    </div>
+    <div class="answers-grid" id="answersGrid"></div>
+    <div class="explanation" id="explanation"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Weiter →</button>
+      <button class="btn btn-secondary" onclick="restartQuiz()">↺ Neu starten</button>
+    </div>
+  </div>
+
+  <div id="results" style="text-align:center">
+    <span class="result-emoji" id="resultEmoji">🎉</span>
+    <h2 class="result-title" id="resultTitle">Quiz beendet!</h2>
+    <span class="result-score-big" id="resultScore">0</span>
+    <p class="result-label" id="resultLabel">von 29 Fragen richtig</p>
+    <div class="result-breakdown" id="breakdown"></div>
+    <div class="result-actions">
+      <button class="btn btn-primary" style="width:100%;font-size:15px;padding:14px" onclick="restartQuiz()">🔀 Neu mischen & nochmal</button>
+      <button class="btn btn-secondary" style="width:100%" onclick="goLearnFromResults()">📖 Lernen & wiederholen</button>
+      <button class="btn btn-secondary" style="width:100%" onclick="backToQuizStart()">← Zum Start</button>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /app -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════
+//  NAV
+// ═══════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function switchLearn(id) {
+  document.querySelectorAll('.learn-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.learn-panel').forEach(p => p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  if (id === 'karteikarten') renderFlashcard();
+  if (id === 'metrum') { if (!currentVerse) loadNewVerse(); }
+}
+
+function goQuiz() { switchTab('quiz'); }
+function goLearnFromResults() { switchTab('learn'); showToast('💡 Sieh dir die Lernbereiche an!'); }
+function backToQuizStart() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz-running').style.display = 'none';
+  document.getElementById('quiz-start').style.display = 'block';
+}
+
+// ═══════════════════════════════
+//  BEGRIFFE ACCORDION
+// ═══════════════════════════════
+const BEGRIFFE = [
+  { icon:'📄', term:'Vers', short:'Eine Gedichtzeile',
+    def:'Der <strong>Vers</strong> ist eine einzelne Zeile eines Gedichts. Mehrere Verse bilden zusammen eine Strophe. Verse können unterschiedlich lang sein.',
+    example:'<strong>Beispiel:</strong> »Im Winter ist es oft sehr kalt« = ein Vers (eine Zeile)' },
+  { icon:'📋', term:'Strophe', short:'Absatz aus mehreren Versen',
+    def:'Eine <strong>Strophe</strong> ist ein Gedichtabschnitt, der aus mehreren Versen besteht. Strophen sind die Absätze eines Gedichts und werden durch Leerzeilen getrennt.',
+    example:'<strong>Vergleich:</strong> Die Strophe im Gedicht = der Absatz in der Prosa' },
+  { icon:'🦶', term:'Versfuß (Takt)', short:'Kleinste Einheit des Metrums',
+    def:'Der <strong>Versfuß</strong> ist die kleinste Einheit des Metrums. Je nach Silbenzahl unterscheidet man zwei- (Jambus, Trochäus) und dreisilbige (Daktylus, Anapäst) Versfüße.',
+    example:'<strong>Merkbild:</strong> Wie ein Fußschritt — betont/unbetont = schwer/leicht' },
+  { icon:'🎼', term:'Metrum', short:'Regelmäßiger Silbenrhythmus',
+    def:'Das <strong>Metrum</strong> (Versmaß) ist das regelmäßige Muster betonter (/) und unbetonter (u) Silben. Es gibt die Anzahl der Hebungen an, z.B. »vierhebiger Jambus«.',
+    example:'<strong>Bestimmung:</strong> 1) Silben trennen · 2) Skandieren (= leiern)' },
+  { icon:'🔗', term:'Reim', short:'Gleichklang am Versende',
+    def:'Ein <strong>Reim</strong> entsteht, wenn Versenden gleich oder ähnlich klingen. Verschiedene Reimschemata (Paarreim, Kreuzreim, umarmender Reim) verknüpfen Verse zu einer Strophe.',
+    schemas:[
+      {l:'Paarreim',v:'aabb'},{l:'Kreuzreim',v:'abab'},{l:'Umarmender Reim',v:'abba'}
+    ]},
+  { icon:'🎭', term:'Lyrischer Sprecher', short:'Nicht = der Dichter',
+    def:'Jedes Gedicht hat einen <strong>lyrischen Sprecher</strong>. Er ist eine erfundene, fiktive Stimme — <em>nicht</em> mit dem Dichter gleichzusetzen. Er kann als lyrisches Ich, Wir oder verborgen auftreten.',
+    example:'<strong>Wichtig:</strong> »Ich« im Gedicht = lyrisches Ich, nicht der Autor' },
+  { icon:'➡️', term:'Enjambement', short:'Zeilensprung',
+    def:'Das <strong>Enjambement</strong> (Zeilensprung) bezeichnet das Weiterführen eines Satzes über das Versende hinaus in die nächste Zeile. Frz. <em>jambe</em> = Bein.',
+    example:'<strong>Beispiel:</strong> »Ich steh ganz oben am Balkon –<br>und seh nur Licht, Glas und Beton.«' },
+  { icon:'🧩', term:'Waise', short:'Vers ohne Reimpartner',
+    def:'Eine <strong>Waise</strong> ist ein Vers ohne Reimpartner — er steht allein, wie ein Kind ohne Eltern. Frz. <em>jambe</em> = Bein.',
+    example:'<strong>Schema:</strong> abXb (X = Waise, reimt sich mit keinem anderen Vers)' },
+];
+
+function buildBegriffe() {
+  const grid = document.getElementById('begriffeGrid');
+  grid.innerHTML = '';
+  BEGRIFFE.forEach((b, i) => {
+    const schemasHtml = b.schemas
+      ? `<div class="schema-row">${b.schemas.map(s => `<div class="schema-pill"><div class="sp-label">${s.l}</div><div class="sp-val">${s.v}</div></div>`).join('')}</div>`
+      : b.example ? `<div class="example">${b.example}</div>` : '';
+    const card = document.createElement('div');
+    card.className = 'begriffs-card';
+    card.id = 'bc-' + i;
+    card.innerHTML = `
+      <div class="begriffs-card-head" onclick="toggleBegriff(${i})">
+        <div class="bc-left">
+          <span class="bc-icon">${b.icon}</span>
+          <div><div class="bc-term">${b.term}</div><div class="bc-short">${b.short}</div></div>
+        </div>
+        <span class="bc-arrow">▶</span>
+      </div>
+      <div class="begriffs-body">
+        <div class="def">${b.def}</div>
+        ${schemasHtml}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function toggleBegriff(i) {
+  const card = document.getElementById('bc-' + i);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.begriffs-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// ═══════════════════════════════
+//  REIMSCHEMATA VISUALIZER
+// ═══════════════════════════════
+const REIM_DATA = [
+  { name:'Paarreim', schema:'aabb', desc:'Immer zwei aufeinanderfolgende Verse reimen miteinander.',
+    lines:[
+      {t:'Stein',e:'a'},{t:'Klang',e:'b'},{t:'Rang',e:'b'},{t:'Bein',e:'a'}
+    ],
+    ex:[ {t:'Im Winter ist es oft sehr kalt,',e:'a'},{t:'die Tiere hungern tief im Wald.',e:'a'},{t:'Es schneit und stürmt und alles friert,',e:'b'},{t:'bis endlich doch der Frühling sprießt.',e:'b'} ]
+  },
+  { name:'Kreuzreim', schema:'abab', desc:'Die Verse reimen sich im Wechsel — Vers 1 mit 3, Vers 2 mit 4.',
+    ex:[ {t:'Stein – Klang – Rang – Bein',e:'',note:true},{t:'Vers 1 & 3 reimen (a),',e:''},{t:'Vers 2 & 4 reimen (b)',e:''} ],
+    lines:[{t:'Siehst du das schöne alte Haus?',e:'a'},{t:'Es wirkt gespenstig, welch ein Graus.',e:'a'},{t:'',e:''},{t:'',e:''}],
+    proper:[{t:'Der Herbst ist kalt,',e:'a'},{t:'die Blätter rot,',e:'b'},{t:'der Wind, er hallt',e:'a'},{t:'durch Moor und Moot.',e:'b'}]
+  },
+  { name:'Umarmender Reim', schema:'abba', desc:'Die äußeren Verse reimen mit den äußeren, die inneren mit den inneren — der Reim »umarmt«.',
+    proper:[{t:'Ich steh ganz oben am Balkon',e:'a'},{t:'und träume von der weiten Welt,',e:'b'},{t:'die mich so sehr gefangen hält,',e:'b'},{t:'vergess dabei den Alltag schon.',e:'a'}]
+  },
+];
+
+function buildReimschemata() {
+  const c = document.getElementById('reimContainer');
+  c.innerHTML = '';
+  REIM_DATA.forEach(r => {
+    const lines = r.proper || r.lines || [];
+    const colors = { a:'rgba(232,197,71,.7)', b:'rgba(91,157,232,.7)', c:'rgba(155,127,232,.7)' };
+    const linesHtml = lines.map(l => {
+      const col = colors[l.e] || 'transparent';
+      return `<div class="reim-line" style="background:${l.e ? col.replace('.7)','.08)') : 'transparent'}">
+        <div class="rl-letter" style="background:${col};color:${l.e?'var(--navy)':'transparent'}">${l.e||''}</div>
+        <span class="rl-text">${l.t}</span>
+        ${l.e ? `<span class="rl-end" style="color:${col.replace('.7)','1)')}">[${l.e}]</span>` : ''}
+      </div>`;
+    }).join('');
+    c.innerHTML += `<div class="reim-card">
+      <div class="reim-title">${r.name} <span class="reim-schema">${r.schema}</span></div>
+      <div class="reim-desc">${r.desc}</div>
+      <div class="reim-lines">${linesHtml}</div>
+    </div>`;
+  });
+}
+
+// ═══════════════════════════════
+//  KARTEIKARTEN
+// ═══════════════════════════════
+const RAW_CARDS = [
+  { q:'Was ist ein Vers?', a:'Eine einzelne <strong>Zeile</strong> eines Gedichts.' },
+  { q:'Was ist eine Strophe?', a:'Ein <strong>Gedichtabschnitt</strong> aus mehreren Versen.' },
+  { q:'Was ist ein Versfuß?', a:'Die <strong>kleinste Einheit</strong> des Metrums (zwei- oder dreisilbig).' },
+  { q:'Was ist das Metrum?', a:'Das <strong>regelmäßige Muster</strong> betonter (/) und unbetonter (u) Silben.' },
+  { q:'Wie lautet das Schema des Paarreims?', a:'<strong>aabb</strong> — je zwei aufeinanderfolgende Verse reimen.' },
+  { q:'Wie lautet das Schema des Kreuzreims?', a:'<strong>abab</strong> — Vers 1 mit 3, Vers 2 mit 4.' },
+  { q:'Wie lautet das Schema des umarmenden Reims?', a:'<strong>abba</strong> — außen umarmt innen.' },
+  { q:'Muster des Jambus?', a:'<strong>u /</strong> — unbetont → betont. Beispiel: ver-NUNFT' },
+  { q:'Muster des Trochäus?', a:'<strong>/ u</strong> — betont → unbetont. Beispiel: FLA-sche' },
+  { q:'Muster des Daktylus?', a:'<strong>/ u u</strong> — betont → unbetont → unbetont. Beispiel: SON-nen-uhr' },
+  { q:'Muster des Anapäst?', a:'<strong>u u /</strong> — unbetont → unbetont → betont. Beispiel: Har-mo-NIE' },
+  { q:'Was ist der lyrische Sprecher?', a:'Eine <strong>erfundene Stimme</strong> im Gedicht — nicht der Dichter selbst.' },
+  { q:'Was ist ein Enjambement?', a:'Ein <strong>Zeilensprung</strong>: Der Satz läuft über das Versende in die nächste Zeile.' },
+  { q:'Was ist eine Waise?', a:'Ein Vers <strong>ohne Reimpartner</strong>.' },
+  { q:'Was bedeutet »Skandieren«?', a:'Den Vers <strong>rhythmisch leiern</strong>, um Betonungen zu erkennen. (Schritt 2 der Metrumbestimmung)' },
+];
+
+let cards = [...RAW_CARDS];
+let fcIdx = 0;
+let seenCards = new Set();
+
+function shuffleCards() {
+  cards = [...RAW_CARDS].sort(() => Math.random() - 0.5);
+  fcIdx = 0;
+  seenCards = new Set();
+  document.getElementById('flashcard').classList.remove('flipped');
+  setTimeout(() => renderFlashcard(), 100);
+}
+
+function renderFlashcard() {
+  if (!cards.length) return;
+  seenCards.add(fcIdx);
+  const c = cards[fcIdx];
+  document.getElementById('fcFront').textContent = c.q;
+  document.getElementById('fcBack').innerHTML = c.a;
+  document.getElementById('fcCounter').textContent = `${fcIdx + 1} / ${cards.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+  buildFcDots();
+}
+
+function buildFcDots() {
+  const row = document.getElementById('fcDots');
+  row.innerHTML = '';
+  cards.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'fc-dot' + (seenCards.has(i) ? ' seen' : '');
+    d.onclick = () => { fcIdx = i; renderFlashcard(); };
+    row.appendChild(d);
+  });
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+
+function fcNav(dir) {
+  fcIdx = (fcIdx + dir + cards.length) % cards.length;
+  renderFlashcard();
+}
+
+// ═══════════════════════════════
+//  METRUM TRAINER
+// ═══════════════════════════════
+const VERSES = [
+  // ── JAMBUS (u /) ──
+  { text:'Im Win·ter ist es oft sehr kalt', syllables:['Im','Win','ter','ist','es','oft','sehr','kalt'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Siehst du das schö·ne al·te Haus', syllables:['Siehst','du','das','schö','ne','al','te','Haus'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Die Tie·re hun·gern tief im Wald', syllables:['Die','Tie','re','hun','gern','tief','im','Wald'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Es wirkt ge·spens·tig, welch ein Graus', syllables:['Es','wirkt','ge','spens','tig','welch','ein','Graus'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Ver·nunft be·herrscht den klu·gen Mann', syllables:['Ver','nunft','be','herrscht','den','klu','gen','Mann'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Das Licht er·löscht am A·bend·rot', syllables:['Das','Licht','er','löscht','am','A','bend','rot'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Ein Kind läuft durch den stil·len Wald', syllables:['Ein','Kind','läuft','durch','den','stil','len','Wald'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+  { text:'Der Mond steht hoch am dun·klen Zelt', syllables:['Der','Mond','steht','hoch','am','dun','klen','Zelt'], stress:[0,1,0,1,0,1,0,1], metrum:'Jambus', desc:'u / u / u / u / — unbetont → betont im Wechsel' },
+
+  // ── TROCHÄUS (/ u) ──
+  { text:'Wie im Traum ver·ließ dein Tag', syllables:['Wie','im','Traum','ver','ließ','dein','Tag'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Kö·ni·gin, dein Herz wird schwer', syllables:['Kö','ni','gin','dein','Herz','wird','schwer'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Sor·gen pla·gen dich so sehr', syllables:['Sor','gen','pla','gen','dich','so','sehr'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Fla·sche, Ker·ze, Nacht und Wind', syllables:['Fla','sche','Ker','ze','Nacht','und','Wind'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Dich·ten macht das Le·ben reich', syllables:['Dich','ten','macht','das','Le','ben','reich'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Ro·sen blü·hen, Som·mer lacht', syllables:['Ro','sen','blü','hen','Som','mer','lacht'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Wol·ken zie·hen, Stur·me wehn', syllables:['Wol','ken','zie','hen','Stur','me','wehn'], stress:[1,0,1,0,1,0,1], metrum:'Trochäus', desc:'/ u / u / u / — betont → unbetont im Wechsel' },
+  { text:'Kin·der la·chen, Vö·gel singen', syllables:['Kin','der','la','chen','Vö','gel','sin','gen'], stress:[1,0,1,0,1,0,1,0], metrum:'Trochäus', desc:'/ u / u / u / u — betont → unbetont im Wechsel' },
+
+  // ── DAKTYLUS (/ u u) ──
+  { text:'Son·nen·uhr zeigt die Zeit', syllables:['Son','nen','uhr','zeigt','die','Zeit'], stress:[1,0,0,1,0,0], metrum:'Daktylus', desc:'/ u u / u u — betont → unbetont → unbetont (dreisilbig)' },
+  { text:'Wun·der·bar leuch·tet der Stern', syllables:['Wun','der','bar','leuch','tet','der','Stern'], stress:[1,0,0,1,0,0,1], metrum:'Daktylus', desc:'/ u u / u u / — betont → unbetont → unbetont' },
+  { text:'Mäch·tig und herr·lich er·strahlt', syllables:['Mäch','tig','und','herr','lich','er','strahlt'], stress:[1,0,0,1,0,0,1], metrum:'Daktylus', desc:'/ u u / u u / — betont → unbetont → unbetont' },
+  { text:'Ju·beln und sin·gen und freu·en', syllables:['Ju','beln','und','sin','gen','und','freu','en'], stress:[1,0,0,1,0,0,1,0], metrum:'Daktylus', desc:'/ u u / u u / u — Daktylus-Muster' },
+  { text:'Hei·li·ge Nacht, stil·le Nacht', syllables:['Hei','li','ge','Nacht','stil','le','Nacht'], stress:[1,0,0,1,1,0,1], metrum:'Daktylus', desc:'/ u u / — betont → unbetont → unbetont' },
+  { text:'Trau·rig und ein·sam steht er', syllables:['Trau','rig','und','ein','sam','steht','er'], stress:[1,0,0,1,0,1,0], metrum:'Daktylus', desc:'/ u u / u / u — Daktylus-Muster' },
+  { text:'Frei·heit und Frie·den für al·le', syllables:['Frei','heit','und','Frie','den','für','al','le'], stress:[1,0,0,1,0,0,1,0], metrum:'Daktylus', desc:'/ u u / u u / u — Daktylus-Muster' },
+
+  // ── ANAPÄST (u u /) ──
+  { text:'Har·mo·nie füllt das Herz', syllables:['Har','mo','nie','füllt','das','Herz'], stress:[0,0,1,0,0,1], metrum:'Anapäst', desc:'u u / u u / — unbetont → unbetont → betont (dreisilbig)' },
+  { text:'In der Nacht kommt der Traum', syllables:['In','der','Nacht','kommt','der','Traum'], stress:[0,0,1,0,0,1], metrum:'Anapäst', desc:'u u / u u / — unbetont → unbetont → betont' },
+  { text:'Und es kam ei·ne Zeit', syllables:['Und','es','kam','ei','ne','Zeit'], stress:[0,0,1,0,0,1], metrum:'Anapäst', desc:'u u / u u / — unbetont → unbetont → betont' },
+  { text:'An dem U·fer des Meers', syllables:['An','dem','U','fer','des','Meers'], stress:[0,0,1,0,0,1], metrum:'Anapäst', desc:'u u / u u / — unbetont → unbetont → betont' },
+  { text:'Wie der Wind durch die Nacht', syllables:['Wie','der','Wind','durch','die','Nacht'], stress:[0,0,1,0,0,1], metrum:'Anapäst', desc:'u u / u u / — unbetont → unbetont → betont' },
+  { text:'In dem Dun·kel er·glänzt ein Licht', syllables:['In','dem','Dun','kel','er','glänzt','ein','Licht'], stress:[0,0,1,0,0,1,0,1], metrum:'Anapäst', desc:'u u / u u / u / — Anapäst-Muster' },
+];
+
+// Shuffle-Logik: nie 2× gleiche Metrum-Art hintereinander
+let verseHistory = [];
+function pickVerse() {
+  const lastMetrum = verseHistory.length > 0 ? verseHistory[verseHistory.length-1] : null;
+  const lastText   = verseHistory.length > 0 ? verseHistory[verseHistory.length-1+0] : null;
+  // Filter: anderes Metrum als zuletzt, und anderen Text als die letzten 3
+  const recent = verseHistory.slice(-3);
+  let pool = VERSES.filter(v => v.metrum !== lastMetrum && !recent.includes(v.text));
+  if (pool.length === 0) pool = VERSES.filter(v => v.metrum !== lastMetrum);
+  if (pool.length === 0) pool = VERSES;
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  verseHistory.push(picked.metrum);
+  verseHistory.push(picked.text);
+  if (verseHistory.length > 10) verseHistory = verseHistory.slice(-10);
+  return picked;
+}
+let currentVerse = null;
+let userStress = [];
+let trainerDone = false;
+
+function loadNewVerse() {
+  currentVerse = pickVerse();
+  userStress = currentVerse.syllables.map(() => null);
+  trainerDone = false;
+  document.getElementById('verseDisplay').textContent = '»' + currentVerse.text + '«';
+  document.getElementById('metrumResult').style.display = 'none';
+  renderSyllableTrainer();
+  renderPattern();
+}
+
+function renderSyllableTrainer() {
+  const wrap = document.getElementById('syllableTrainer');
+  wrap.innerHTML = '';
+  currentVerse.syllables.forEach((syl, i) => {
+    const state = userStress[i]; // null=untouched, true=stressed, false=unstressed
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer';
+
+    // Label above
+    const label = document.createElement('div');
+    label.style.cssText = `font-size:10px;font-weight:600;height:14px;letter-spacing:.05em;
+      color:${state===null?'transparent':state?'var(--gold)':'rgba(255,255,255,0.35)'};
+      transition:color .15s;`;
+    label.textContent = state===null ? '·' : state ? 'BETONT' : 'unbetont';
+
+    // Syllable button
+    const btn = document.createElement('button');
+    btn.style.cssText = `
+      padding:12px 14px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;
+      border:2px solid ${state===null?'rgba(255,255,255,0.15)':state?'var(--gold)':'rgba(255,255,255,0.15)'};
+      background:${state===null?'rgba(255,255,255,0.05)':state?'rgba(232,197,71,0.18)':'rgba(255,255,255,0.03)'};
+      color:${state===null?'var(--cream)':state?'var(--gold)':'var(--cream-dim)'};
+      font-family:'Inter',sans-serif;transition:all .15s;min-width:48px;text-align:center;
+      ${trainerDone?'pointer-events:none;':''}
+    `;
+    btn.textContent = syl;
+
+    // Symbol below
+    const sym = document.createElement('div');
+    sym.style.cssText = `font-size:16px;font-weight:700;height:20px;
+      color:${state===null?'transparent':state?'var(--gold)':'var(--cream-dim)'};
+      transition:color .15s;`;
+    sym.textContent = state===null ? '' : state ? '/' : 'u';
+
+    wrapper.onclick = () => {
+      if (trainerDone) return;
+      if (userStress[i] === null) userStress[i] = true;
+      else if (userStress[i] === true) userStress[i] = false;
+      else userStress[i] = null;
+      renderSyllableTrainer();
+      renderPattern();
+      checkComplete();
+    };
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(btn);
+    wrapper.appendChild(sym);
+    wrap.appendChild(wrapper);
+  });
+}
+
+function renderPattern() {
+  const row = document.getElementById('patternRow');
+  row.innerHTML = '';
+  const allMarked = userStress.every(s => s !== null);
+  if (!allMarked) {
+    const hint = document.createElement('span');
+    hint.style.cssText = 'font-size:13px;color:var(--cream-dim);align-self:center;';
+    const marked = userStress.filter(s => s !== null).length;
+    hint.textContent = marked === 0
+      ? '← Tippe auf die Silben, um sie zu markieren'
+      : `${marked} von ${userStress.length} Silben markiert…`;
+    row.appendChild(hint);
+    return;
+  }
+  // Show pattern chips
+  userStress.forEach((s, i) => {
+    const chip = document.createElement('div');
+    chip.style.cssText = `
+      width:34px;height:34px;border-radius:6px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;font-weight:700;
+      background:${s?'rgba(232,197,71,0.2)':'rgba(255,255,255,0.07)'};
+      color:${s?'var(--gold)':'var(--cream-dim)'};
+      border:1.5px solid ${s?'rgba(232,197,71,0.5)':'rgba(255,255,255,0.12)'};
+    `;
+    chip.textContent = s ? '/' : 'u';
+    row.appendChild(chip);
+  });
+}
+
+function checkComplete() {
+  const allMarked = userStress.every(s => s !== null);
+  if (!allMarked) return;
+  const pattern = userStress.map(x => x ? '/' : 'u').join('');
+  const correct = currentVerse.stress.map(x => x ? '/' : 'u').join('');
+  const isRight = pattern === correct;
+  const result = document.getElementById('metrumResult');
+  if (isRight) {
+    result.style.cssText = 'display:block;border-radius:9px;padding:14px 18px;text-align:center;margin-bottom:16px;background:rgba(76,175,130,0.15);border:1px solid rgba(76,175,130,0.3)';
+    result.innerHTML = `<div style="font-size:20px;margin-bottom:4px">✅</div>
+      <div style="font-size:16px;font-weight:600;color:var(--white);margin-bottom:4px">${currentVerse.metrum}!</div>
+      <div style="font-size:13px;color:var(--cream-dim)">${currentVerse.desc}</div>`;
+    trainerDone = true;
+    showToast('🎉 Richtig! ' + currentVerse.metrum);
+  } else {
+    result.style.cssText = 'display:block;border-radius:9px;padding:14px 18px;text-align:center;margin-bottom:16px;background:rgba(224,92,92,0.1);border:1px solid rgba(224,92,92,0.25)';
+    result.innerHTML = `<div style="font-size:13px;color:var(--cream-dim)">Das Muster passt noch nicht ganz — versuch es nochmal oder tippe auf Lösung.</div>`;
+  }
+}
+
+function showSolution() {
+  if (!currentVerse) return;
+  userStress = [...currentVerse.stress];
+  trainerDone = true;
+  renderSyllableTrainer();
+  renderPattern();
+  const result = document.getElementById('metrumResult');
+  result.style.cssText = 'display:block;border-radius:9px;padding:14px 18px;text-align:center;margin-bottom:16px;background:rgba(232,197,71,0.1);border:1px solid rgba(232,197,71,0.25)';
+  result.innerHTML = `<div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:4px">💡 Lösung: ${currentVerse.metrum}</div>
+    <div style="font-size:13px;color:var(--cream-dim)">${currentVerse.desc}</div>`;
+  showToast('Lösung: ' + currentVerse.metrum);
+}
+
+// ═══════════════════════════════
+//  QUIZ
+// ═══════════════════════════════
+const ALL_QUESTIONS = [
+  { cat:"Grundbegriffe", q:"Was ist ein »Vers«?", a:["Eine Zeile eines Gedichts","Ein Gedichtabschnitt aus mehreren Zeilen","Die kleinste Einheit des Metrums","Eine Abfolge betonter Silben"], c:0, ex:"Der <strong>Vers</strong> ist eine einzelne Zeile eines Gedichts. Mehrere Verse bilden zusammen eine Strophe." },
+  { cat:"Grundbegriffe", q:"Was bezeichnet man als »Strophe«?", a:["Einen Gedichtabschnitt, der aus mehreren Versen besteht","Eine einzelne Gedichtzeile","Die regelmäßige Abfolge von Silben","Den Reim am Zeilenende"], c:0, ex:"Eine <strong>Strophe</strong> ist ein Gedichtabschnitt, bestehend aus mehreren Versen. Strophen gliedern das Gedicht." },
+  { cat:"Grundbegriffe", q:"Was ist ein »Versfuß«?", a:["Die kleinste Einheit des Metrums – je nach Silbenzahl zwei- oder dreisilbig","Eine einzelne Gedichtzeile","Der Reim zweier aufeinanderfolgender Verse","Eine Strophe mit nur vier Versen"], c:0, ex:"Der <strong>Versfuß</strong> (Takt) ist die kleinste Einheit des Metrums." },
+  { cat:"Grundbegriffe", q:"Was beschreibt das »Metrum«?", a:["Die regelmäßige Abfolge von betonten und unbetonten Silben","Die Anzahl der Strophen","Das Reimschema eines Gedichts","Den lyrischen Sprecher"], c:0, ex:"Das <strong>Metrum</strong> ist das regelmäßige Muster betonter (/) und unbetonter (u) Silben in einem Gedicht." },
+  { cat:"Grundbegriffe", q:"Was bedeutet »Reim« in der Lyrik?", a:["Unterschiedliche Reimschemata verknüpfen die Verse zu einer Strophe","Die kleinste rhythmische Einheit","Die Anzahl der Hebungen im Vers","Das Versmaß eines Gedichts"], c:0, ex:"Reime entstehen, wenn Versenden gleich oder ähnlich klingen." },
+  { cat:"Grundbegriffe", q:"Gedichte sind …", a:["Verdichtete Inhalte und wie Text-Kompositionen","Lange Erzählungen ohne Reimschema","Sachliche Berichte in Versform","Dialoge zwischen zwei Personen"], c:0, ex:"Gedichte sind <strong>verdichtete Inhalte</strong> – sie sagen auf engem Raum viel aus." },
+  { cat:"Reimschemata", q:"Welches Reimschema hat der Paarreim?", a:["aabb","abab","abba","abcb"], c:0, ex:"<strong>Paarreim (aabb):</strong> Immer zwei aufeinanderfolgende Verse reimen." },
+  { cat:"Reimschemata", q:"Welches Reimschema hat der Kreuzreim?", a:["abab","aabb","abba","aaaa"], c:0, ex:"<strong>Kreuzreim (abab):</strong> Die Verse reimen sich im Wechsel." },
+  { cat:"Reimschemata", q:"Welches Reimschema hat der umarmende Reim?", a:["abba","abab","aabb","abcb"], c:0, ex:"<strong>Umarmender Reim (abba):</strong> Die äußeren Verse umarmen die inneren." },
+  { cat:"Reimschemata", q:"Was ist ein »Unreiner Reim«?", a:["Ein Reim mit ähnlichem, aber nicht identischem Klang (z.B. Liebe – Rübe)","Ein Vers ganz ohne Reim","Ein Reim am Versanfang","Wenn alle vier Verse gleich reimen"], c:0, ex:"<strong>Unreiner Reim:</strong> Die Reime klingen ähnlich, aber nicht exakt gleich. Beispiel: Liebe – Rübe." },
+  { cat:"Reimschemata", q:"Was ist eine »Waise« im Gedicht?", a:["Ein Vers ohne Reimpartner","Ein Kind ohne Eltern im Gedicht","Eine besonders kurze Strophe","Der erste Vers einer Strophe"], c:0, ex:"<strong>Waise:</strong> Ein Vers, der keinen Reimpartner hat." },
+  { cat:"Reimschemata", q:"Welchem Reimschema entspricht: Stein – Klang – Rang – Bein?", a:["abba (umarmender Reim)","abab (Kreuzreim)","aabb (Paarreim)","Kein Reim"], c:0, ex:"Stein/Bein reimen (a–a), Klang/Rang reimen (b–b) → <strong>abba = umarmender Reim</strong>." },
+  { cat:"Reimschemata", q:"Welchem Reimschema entspricht: Stein – Bein – Rang – Klang?", a:["aabb (Paarreim)","abab (Kreuzreim)","abba (umarmender Reim)","abcb"], c:0, ex:"Stein/Bein und Rang/Klang reimen paarweise: <strong>aabb = Paarreim</strong>." },
+  { cat:"Metrum & Versmaß", q:"Wie lautet das Betonungsmuster des Jambus?", a:["unbetont – betont (u /)","betont – unbetont (/ u)","betont – unbetont – unbetont (/ u u)","unbetont – unbetont – betont (u u /)"], c:0, ex:"<strong>Jambus (u /):</strong> Unbetonte Silbe, dann betonte. Beispiel: ver-NUNFT." },
+  { cat:"Metrum & Versmaß", q:"Wie lautet das Betonungsmuster des Trochäus?", a:["betont – unbetont (/ u)","unbetont – betont (u /)","betont – unbetont – unbetont (/ u u)","unbetont – unbetont – betont (u u /)"], c:0, ex:"<strong>Trochäus (/ u):</strong> Betonte Silbe zuerst. Beispiel: FLA-sche." },
+  { cat:"Metrum & Versmaß", q:"Wie lautet das Betonungsmuster des Daktylus?", a:["betont – unbetont – unbetont (/ u u)","unbetont – betont (u /)","unbetont – unbetont – betont (u u /)","betont – unbetont (/ u)"], c:0, ex:"<strong>Daktylus (/ u u):</strong> Dreisilbig, betonte Silbe zuerst. Beispiel: SON-nen-uhr." },
+  { cat:"Metrum & Versmaß", q:"Wie lautet das Betonungsmuster des Anapäst?", a:["unbetont – unbetont – betont (u u /)","betont – unbetont – unbetont (/ u u)","unbetont – betont (u /)","betont – unbetont (/ u)"], c:0, ex:"<strong>Anapäst (u u /):</strong> Dreisilbig, Betonung am Ende. Beispiel: Har-mo-NIE." },
+  { cat:"Metrum & Versmaß", q:"Was gibt das Metrum eines Gedichts an?", a:["Die Anzahl der Hebungen und den Takt (z.B. vierhebiger Jambus)","Die Anzahl der Strophen","Das Reimschema","Die Anzahl der Wörter pro Vers"], c:0, ex:"Das <strong>Metrum</strong> gibt an, wie viele Hebungen ein Vers hat und welches Versmaß verwendet wird." },
+  { cat:"Metrum & Versmaß", q:"Wie bestimmt man das Metrum? (1. Schritt)", a:["Trennung der Sprechsilben","Laut vorlesen","Strophen zählen","Reime markieren"], c:0, ex:"Der erste Schritt: <strong>Silbentrennung</strong> — jede Sprechsilbe einzeln markieren." },
+  { cat:"Metrum & Versmaß", q:"Was bedeutet »Skandieren«?", a:["Das rhythmische Lesen (»Leiern«) eines Verses, um das Metrum zu erkennen","Das Reimen von Versen","Das Zählen der Strophen","Das Bestimmen des lyrischen Sprechers"], c:0, ex:"<strong>Skandieren (= leiern):</strong> Den Vers übertrieben rhythmisch lesen – 2. Schritt der Metrumbestimmung." },
+  { cat:"Metrum & Versmaß", q:"»Im Win-ter ist es oft sehr kalt« – Welches Versmaß?", a:["Jambus (u /)","Trochäus (/ u)","Daktylus (/ u u)","Anapäst (u u /)"], c:0, ex:"Betonung auf 2., 4., 6., 8. Silbe → unbetont-betont = <strong>Jambus</strong>." },
+  { cat:"Metrum & Versmaß", q:"»Siehst du das schöne alte Haus?« – Welches Versmaß?", a:["Jambus (u /)","Trochäus (/ u)","Daktylus (/ u u)","Anapäst (u u /)"], c:0, ex:"Betonung auf 2., 4., 6., 8. Silbe → <strong>Jambus</strong>." },
+  { cat:"Metrum & Versmaß", q:"»Wie im Traum verließ dein Tag« – Welches Versmaß?", a:["Trochäus (/ u)","Jambus (u /)","Daktylus (/ u u)","Anapäst (u u /)"], c:0, ex:"Erste Silbe betont, alternierend fallend → <strong>Trochäus</strong>." },
+  { cat:"Lyrischer Sprecher", q:"Was ist der »lyrische Sprecher«?", a:["Eine erfundene Stimme im Gedicht – nicht der Dichter selbst","Der Autor des Gedichts","Die Hauptfigur einer Ballade","Der Leser des Gedichts"], c:0, ex:"Jedes Gedicht hat einen <strong>lyrischen Sprecher</strong>. Er ist fiktiv – <em>nicht</em> der Dichter." },
+  { cat:"Lyrischer Sprecher", q:"Kann der lyrische Sprecher im Gedicht verborgen sein?", a:["Ja, er muss nicht explizit auftreten","Nein, er nennt sich immer mit Namen","Nein, er ist immer mit »Ich« benannt","Ja, aber nur in Balladen"], c:0, ex:"Der <strong>lyrische Sprecher</strong> kann verborgen sein – er muss nicht explizit als »Ich« auftreten." },
+  { cat:"Lyrischer Sprecher", q:"Als was kann der Sprecher im Gedicht erscheinen?", a:["Als lyrisches Ich oder lyrisches Wir","Nur als Erzähler","Nur als unbeteiligte Stimme","Immer als der Dichter persönlich"], c:0, ex:"Der Sprecher kann als <strong>lyrisches Ich</strong> oder <strong>lyrisches Wir</strong> erscheinen." },
+  { cat:"Lyrischer Sprecher", q:"Was bedeutet es, wenn ein »lyrisches Du« angesprochen wird?", a:["Der Sprecher richtet das Gedicht an eine zweite Person oder ein Wesen","Der Dichter spricht zu sich selbst","Das Gedicht hat zwei Sprecher","Es gibt keinen Reim"], c:0, ex:"Manchmal wird ein <strong>lyrisches Du</strong> angesprochen – eine Person, ein Tier oder ein Objekt." },
+  { cat:"Enjambement", q:"Was ist ein »Enjambement«?", a:["Ein Zeilensprung – ein Satz wird über das Versende in die nächste Zeile weitergeführt","Ein Reimschema","Ein besonderer Versfuß","Eine Strophe ohne Reim"], c:0, ex:"<strong>Enjambement</strong> (Zeilensprung): Ein Satz hört nicht am Versende auf." },
+  { cat:"Enjambement", q:"Woher stammt das Wort »Enjambement«?", a:["Aus dem Französischen: enjambe = Schritt (jambe = Bein)","Aus dem Lateinischen","Aus dem Griechischen","Aus dem Deutschen"], c:0, ex:"Frz. <em>jambe</em> = Bein → Enjambement = das Hinüberschreiten über das Versende." },
+  { cat:"Enjambement", q:"»Ich steh ganz oben am Balkon –\nund seh nur Licht, Glas und Beton.« — Enjambement?", a:["Ja, der Satz läuft vom Balkon in die nächste Zeile","Nein, beide Verse sind abgeschlossene Sätze","Nein, das ist ein Paarreim","Ja, aber nur wegen des Reims"], c:0, ex:"<strong>Ja!</strong> »am Balkon –« ist kein abgeschlossener Satz, er führt in Vers 2 weiter = <strong>Enjambement</strong>." },
+];
+
+let questions=[], current=0, score=0, correct=0, wrong=0, streak=0, history=[], catStats={};
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function startQuiz() {
+  questions = shuffle(ALL_QUESTIONS).map(q => {
+    const idx = shuffle([0,1,2,3]);
+    return { ...q, a: idx.map(i => q.a[i]), c: idx.indexOf(q.c) };
+  });
+  current=0; score=0; correct=0; wrong=0; streak=0; history=[]; catStats={};
+  questions.forEach(q => { if(!catStats[q.cat]) catStats[q.cat]={c:0,t:0}; catStats[q.cat].t++; });
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz-running').style.display = 'block';
+  buildStreakBar(); renderQuestion();
+}
+
+function buildStreakBar() {
+  const bar = document.getElementById('streakBar'); bar.innerHTML = '';
+  questions.forEach((_,i) => { const d=document.createElement('div'); d.className='streak-dot'; d.id='dot-'+i; bar.appendChild(d); });
+}
+
+function renderQuestion() {
+  const q = questions[current], total = questions.length;
+  document.getElementById('progText').textContent = `Frage ${current+1} von ${total}`;
+  const pct = Math.round((current/total)*100);
+  document.getElementById('progPct').textContent = pct+'%';
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('catBadge').textContent = q.cat;
+  document.getElementById('qNum').textContent = `Frage ${current+1}`;
+  document.getElementById('qText').innerHTML = q.q.replace(/\n/g,'<br>');
+  const grid = document.getElementById('answersGrid'); grid.innerHTML = '';
+  ['A','B','C','D'].forEach((l,i) => {
+    const btn = document.createElement('button'); btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="letter">${l}</span>${q.a[i]}`;
+    btn.onclick = () => selectAnswer(i, btn); grid.appendChild(btn);
+  });
+  document.getElementById('explanation').className = 'explanation';
+  document.getElementById('explanation').innerHTML = '';
+  document.getElementById('nextBtn').disabled = true;
+}
+
+function selectAnswer(idx, btn) {
+  const q = questions[current];
+  document.querySelectorAll('.answer-btn').forEach(b => b.disabled=true);
+  const isCorrect = idx === q.c;
+  const dot = document.getElementById('dot-'+current);
+  if (isCorrect) {
+    btn.classList.add('correct');
+    score += streak>=3 ? 20 : 10;
+    correct++; streak++;
+    dot.classList.add('hit');
+    if (streak>=3) showToast(`🔥 ${streak}er-Streak! +20 Punkte`);
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.answer-btn')[q.c].classList.add('correct');
+    wrong++; streak=0; dot.classList.add('miss');
+  }
+  history.push(isCorrect);
+  catStats[q.cat].c += isCorrect ? 1 : 0;
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('correctVal').textContent = correct;
+  document.getElementById('wrongVal').textContent = wrong;
+  document.getElementById('streakVal').textContent = streak+'🔥';
+  const exp = document.getElementById('explanation');
+  exp.innerHTML = `💡 ${q.ex}`; exp.classList.add('show');
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) showResults(); else renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-running').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  const total = questions.length, pct = Math.round((correct/total)*100);
+  let emoji, title;
+  if (pct>=90){emoji='🏆';title='Ausgezeichnet!'}
+  else if(pct>=70){emoji='⭐';title='Sehr gut!'}
+  else if(pct>=50){emoji='📚';title='Gut gemacht!'}
+  else{emoji='💪';title='Weiter üben!'}
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultScore').textContent = correct+'/'+total;
+  document.getElementById('resultLabel').textContent = `richtig · ${score} Punkte · ${pct}%`;
+  let bd = '<div class="breakdown-title">Ergebnis nach Thema</div>';
+  Object.entries(catStats).forEach(([cat,{c,t}]) => {
+    const stars = c===t?'✅':c>=t/2?'🟡':'❌';
+    bd += `<div class="breakdown-row"><span class="cat">${stars} ${cat}</span><span class="stat">${c}/${t}</span></div>`;
+  });
+  document.getElementById('breakdown').innerHTML = bd;
+}
+
+function restartQuiz() { startQuiz(); }
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════
+//  INIT
+// ═══════════════════════════════
+buildBegriffe();
+buildReimschemata();
+</script>
+</body>
+</html>
